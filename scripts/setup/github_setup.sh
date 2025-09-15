@@ -43,7 +43,7 @@ gh repo create $REPO_NAME --public --description "GPU编程学习项目 - PyTorc
 
 # 添加远程仓库
 echo "🔗 添加远程仓库..."
-git remote add origin https://github.com/$USERNAME/$REPO_NAME.git
+git remote add origin git@github.com:$USERNAME/$REPO_NAME.git
 
 # 设置默认分支为main
 echo "🌿 设置默认分支..."
