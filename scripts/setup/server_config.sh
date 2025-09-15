@@ -55,6 +55,14 @@ export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
 export PYTORCH_CUDA_VERSION="cu124"
 export PYTORCH_INDEX_URL="https://download.pytorch.org/whl/cu124"
 
+# Triton配置
+export TRITON_CACHE_DIR="$SERVER_CACHE_DIR/triton"
+export TRITON_BACKEND="cuda"
+
+# ThunderKitten配置
+export THUNDERKITTEN_CACHE_DIR="$SERVER_CACHE_DIR/thunderkitten"
+export THUNDERKITTEN_BACKEND="cuda"
+
 # 多用户环境提醒
 export SERVER_MULTI_USER="true"
 export SERVER_OTHER_USERS="chunyu,pengfei,qingchen,ranwen,rundong,tianyu,wanghaoxu,weijia,weiqi,yicheng,yiwei"
@@ -109,11 +117,42 @@ function setup_environment() {
     export PYTORCH_CUDA_VERSION="cu124"
     export PYTORCH_INDEX_URL="https://download.pytorch.org/whl/cu124"
     
+    echo "设置Triton环境..."
+    export TRITON_CACHE_DIR="$SERVER_CACHE_DIR/triton"
+    export TRITON_BACKEND="cuda"
+    
+    echo "设置ThunderKitten环境..."
+    export THUNDERKITTEN_CACHE_DIR="$SERVER_CACHE_DIR/thunderkitten"
+    export THUNDERKITTEN_BACKEND="cuda"
+    
     echo "创建必要目录..."
     mkdir -p "$SERVER_USER_HOME"/{gpu_learning,projects,.cache}
+    mkdir -p "$TRITON_CACHE_DIR" "$THUNDERKITTEN_CACHE_DIR"
     
     echo "环境设置完成"
     echo "================"
+}
+
+function install_gpu_frameworks() {
+    echo "=== 安装GPU编程框架 ==="
+    echo "建议在虚拟环境中安装以下框架:"
+    echo ""
+    echo "1. 创建虚拟环境:"
+    echo "   python -m venv gpu_env"
+    echo "   source gpu_env/bin/activate"
+    echo ""
+    echo "2. 安装PyTorch (CUDA 12.4):"
+    echo "   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124"
+    echo ""
+    echo "3. 安装Triton:"
+    echo "   pip install triton"
+    echo ""
+    echo "4. 安装ThunderKitten:"
+    echo "   pip install thunderkitten"
+    echo ""
+    echo "5. 验证安装:"
+    echo "   python3 check_server_env.py"
+    echo "========================"
 }
 
 # 如果直接运行此脚本，显示服务器信息
@@ -128,4 +167,5 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     echo "  check_gpu_status  # 检查GPU状态"
     echo "  check_disk_usage  # 检查磁盘使用"
     echo "  setup_environment  # 设置环境"
+    echo "  install_gpu_frameworks  # 显示GPU框架安装指南"
 fi

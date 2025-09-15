@@ -165,6 +165,97 @@ def check_pytorch_info():
     except Exception as e:
         print(f"❌ PyTorch检查失败: {e}")
 
+def check_triton_info():
+    """检查Triton信息"""
+    print_header("Triton信息")
+    
+    try:
+        import triton
+        print(f"Triton版本: {triton.__version__}")
+        
+        # 检查Triton后端
+        try:
+            import triton.language as tl
+            print("✅ Triton语言模块可用")
+        except ImportError as e:
+            print(f"❌ Triton语言模块不可用: {e}")
+        
+        # 检查Triton编译
+        try:
+            import triton.compiler as tc
+            print("✅ Triton编译器可用")
+        except ImportError as e:
+            print(f"❌ Triton编译器不可用: {e}")
+            
+        # 简单Triton测试
+        try:
+            import triton.language as tl
+            import triton.testing as tt
+            
+            @triton.jit
+            def add_kernel(x_ptr, y_ptr, output_ptr, n_elements, BLOCK_SIZE: tl.constexpr):
+                pid = tl.program_id(axis=0)
+                block_start = pid * BLOCK_SIZE
+                offsets = block_start + tl.arange(0, BLOCK_SIZE)
+                mask = offsets < n_elements
+                x = tl.load(x_ptr + offsets, mask=mask)
+                y = tl.load(y_ptr + offsets, mask=mask)
+                output = x + y
+                tl.store(output_ptr + offsets, output, mask=mask)
+            
+            print("✅ Triton内核编译测试通过")
+        except Exception as e:
+            print(f"❌ Triton内核测试失败: {e}")
+            
+    except ImportError:
+        print("❌ Triton未安装")
+        print("安装命令: pip install triton")
+    except Exception as e:
+        print(f"❌ Triton检查失败: {e}")
+
+def check_thunderkitten_info():
+    """检查ThunderKitten信息"""
+    print_header("ThunderKitten信息")
+    
+    try:
+        import thunderkitten
+        print(f"ThunderKitten版本: {thunderkitten.__version__}")
+        
+        # 检查ThunderKitten模块
+        try:
+            from thunderkitten import ops
+            print("✅ ThunderKitten操作模块可用")
+        except ImportError as e:
+            print(f"❌ ThunderKitten操作模块不可用: {e}")
+        
+        # 检查ThunderKitten后端
+        try:
+            from thunderkitten import backend
+            print("✅ ThunderKitten后端可用")
+        except ImportError as e:
+            print(f"❌ ThunderKitten后端不可用: {e}")
+            
+        # 简单ThunderKitten测试
+        try:
+            import torch
+            from thunderkitten import ops
+            
+            # 创建测试张量
+            x = torch.randn(100, 100, device='cuda')
+            y = torch.randn(100, 100, device='cuda')
+            
+            # 测试ThunderKitten操作
+            result = ops.add(x, y)
+            print("✅ ThunderKitten操作测试通过")
+        except Exception as e:
+            print(f"❌ ThunderKitten操作测试失败: {e}")
+            
+    except ImportError:
+        print("❌ ThunderKitten未安装")
+        print("安装命令: pip install thunderkitten")
+    except Exception as e:
+        print(f"❌ ThunderKitten检查失败: {e}")
+
 def check_disk_info():
     """检查磁盘信息"""
     print_header("磁盘信息")
@@ -276,6 +367,8 @@ def main():
     check_gpu_info()
     check_cuda_info()
     check_pytorch_info()
+    check_triton_info()
+    check_thunderkitten_info()
     check_disk_info()
     check_network_info()
     check_environment_variables()
@@ -286,8 +379,10 @@ def main():
     print("1. NVIDIA驱动是否正确安装")
     print("2. CUDA版本是否匹配")
     print("3. PyTorch是否正确安装")
-    print("4. 环境变量是否正确设置")
-    print("5. 目录权限是否正确")
+    print("4. Triton是否正确安装 (pip install triton)")
+    print("5. ThunderKitten是否正确安装 (pip install thunderkitten)")
+    print("6. 环境变量是否正确设置")
+    print("7. 目录权限是否正确")
 
 if __name__ == "__main__":
     main()
