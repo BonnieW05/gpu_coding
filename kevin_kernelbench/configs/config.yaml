@@ -1,0 +1,41 @@
+# Kevin-32B 和 KernelBench 评估配置
+
+# 模型配置
+model:
+  name: "cognition-ai/Kevin-32B"
+  cache_dir: "./data/models"
+  torch_dtype: "float16"
+  device_map: "auto"
+  trust_remote_code: true
+
+# 生成配置
+generation:
+  max_new_tokens: 1024
+  temperature: 0.1
+  top_p: 0.9
+  top_k: 50
+
+# 评估配置
+evaluation:
+  num_samples: 3  # 减少到3个样本用于快速测试
+  save_generated_kernels: true
+  compile_kernels: true
+  run_benchmarks: true
+
+# KernelBench配置
+kernelbench:
+  dataset_path: "./data/kernelbench"
+  results_path: "./results"
+  timeout: 60
+
+# 日志配置
+logging:
+  level: "INFO"
+  log_file: "./logs/kevin_evaluation.log"
+  log_format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# 监控配置
+monitoring:
+  use_swanlab: true  # 启用SwanLab实验跟踪
+  swanlab_project: "kevin-kernelbench"
+  swanlab_entity: null  # 可选，SwanLab实体名称

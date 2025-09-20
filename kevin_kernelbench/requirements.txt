@@ -1,0 +1,22 @@
+# Kevin-32B 模型和 KernelBench 评估环境依赖
+
+# 核心深度学习框架
+torch>=2.1.0
+
+# Transformers 和相关库
+transformers>=4.35.0
+accelerate>=0.24.0
+
+# 数据处理
+numpy>=1.24.0
+pyyaml>=6.0
+
+# 进度显示
+tqdm>=4.66.0
+
+# 网络请求
+requests>=2.31.0
+huggingface-hub>=0.17.0
+
+# 实验跟踪和监控
+swanlab>=0.3.0
