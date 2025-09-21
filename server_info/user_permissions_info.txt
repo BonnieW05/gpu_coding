@@ -1,0 +1,84 @@
+=========================================
+用户权限检查报告
+检查时间: 2025-09-21 09:29:10
+用户: wanghan
+=========================================
+
+1. 用户基本信息
+=================
+当前用户: wanghan
+用户ID: uid=1010(wanghan) gid=1010(wanghan) groups=1010(wanghan)
+主目录: /root/autodl-tmp/wanghan
+
+2. /autodl-pub 目录权限检查
+===========================
+/autodl-pub 目录存在
+drwxr-xr-x 3 root root 26 Oct 13  2023 /autodl-pub
+
+/autodl-pub/data 目录权限:
+drwxrwxrwx 28 root root 4096 Apr  2 22:22 /autodl-pub/data
+
+尝试在 /autodl-pub/data 创建测试目录:
+❌ 无法在 /autodl-pub/data 创建目录
+
+尝试在 /autodl-pub 创建测试目录:
+❌ 无法在 /autodl-pub 创建目录
+
+3. 用户主目录空间检查
+=====================
+主目录: /root/autodl-tmp/wanghan
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/md0        2.5T  2.1T  428G  83% /root/autodl-tmp
+主目录大小:
+13G	/root/autodl-tmp/wanghan
+
+4. /tmp 目录权限检查
+===================
+/tmp 目录权限:
+drwxrwxrwt 1 root root 696320 Sep 21 09:05 /tmp
+尝试在 /tmp 创建测试目录:
+✅ 可以在 /tmp 创建目录
+
+5. 当前项目目录权限检查
+=======================
+当前目录: /root/autodl-tmp/wanghan/gpu_coding/kevin_kernelbench
+drwxrwxr-x 8 wanghan wanghan 4096 Sep 21 09:29 .
+data 目录权限:
+drwxrwxr-x 4 wanghan wanghan 51 Sep 20 21:50 data
+data/models 目录权限:
+drwxrwxr-x 2 wanghan wanghan 10 Sep 20 21:50 data/models
+
+6. 其他可能的存储位置
+=====================
+/scratch 目录:
+/scratch 目录不存在
+
+/data 目录:
+/data 目录不存在
+
+/workspace 目录:
+/workspace 目录不存在
+
+/shared 目录:
+/shared 目录不存在
+
+/mnt/shared 目录:
+/mnt/shared 目录不存在
+
+7. 环境变量中的存储路径
+=======================
+TMPDIR: 
+XDG_DATA_HOME: 
+XDG_CACHE_HOME: 
+
+8. 推荐存储方案
+===============
+基于权限检查结果，推荐以下方案:
+1. 如果 /autodl-pub/data 可写：使用 /autodl-pub/data/models/kevin-32b
+2. 如果 /autodl-pub 可写：使用 /autodl-pub/models/kevin-32b
+3. 如果都不可写：使用用户主目录下的 models 目录
+4. 临时方案：使用 /tmp 目录（注意可能被清理）
+
+=========================================
+检查完成时间: 2025-09-21 09:29:10
+=========================================

@@ -1,0 +1,162 @@
+=========================================
+服务器存储检查报告
+检查时间: 2025-09-20 22:10:31
+=========================================
+
+1. 磁盘使用情况
+=================
+Filesystem       Size  Used Avail Use% Mounted on
+overlay           30G   24G  6.8G  78% /
+/dev/md0         7.0T  3.8T  3.3T  54% /autodl-pub
+AutoFS:fswestb1   20T  1.6T   18T   9% /autodl-pub/data
+tmpfs             64M     0   64M   0% /dev
+shm               60G     0   60G   0% /dev/shm
+/dev/nvme0n1p2   1.8T   31G  1.7T   2% /usr/bin/nvidia-smi
+tmpfs            378G   12K  378G   1% /proc/driver/nvidia
+tmpfs            378G  4.0K  378G   1% /etc/nvidia/nvidia-application-profiles-rc.d
+tmpfs            378G     0  378G   0% /proc/asound
+tmpfs            378G     0  378G   0% /proc/acpi
+tmpfs            378G     0  378G   0% /proc/scsi
+tmpfs            378G     0  378G   0% /sys/firmware
+
+2. 当前目录信息
+=================
+当前工作目录: /root/autodl-tmp/wanghan/gpu_coding/kevin_kernelbench
+当前目录大小:
+116K	.
+
+3. 当前目录下各子目录大小
+=========================
+64K	src
+12K	scripts
+8.0K	README.md
+4.0K	setup.py
+4.0K	server_storage_info.txt
+4.0K	run_evaluation.py
+4.0K	requirements.txt
+4.0K	logs
+4.0K	configs
+4.0K	SWANLAB_USAGE.md
+0	results
+0	data
+
+4. 查找 kevin_kernelbench 项目
+=============================
+找到的 kevin_kernelbench 项目路径:
+/root/autodl-tmp/wanghan/gpu_coding/kevin_kernelbench
+/root/autodl-tmp/wanghan/gpu_coding/kevin_kernelbench/src/kevin_kernelbench
+
+项目路径: /root/autodl-tmp/wanghan/gpu_coding/kevin_kernelbench
+项目大小:
+116K	/root/autodl-tmp/wanghan/gpu_coding/kevin_kernelbench
+
+data 目录大小:
+0	/root/autodl-tmp/wanghan/gpu_coding/kevin_kernelbench/data
+data 目录结构:
+/root/autodl-tmp/wanghan/gpu_coding/kevin_kernelbench/data
+/root/autodl-tmp/wanghan/gpu_coding/kevin_kernelbench/data/models
+/root/autodl-tmp/wanghan/gpu_coding/kevin_kernelbench/data/kernelbench
+
+项目路径: /root/autodl-tmp/wanghan/gpu_coding/kevin_kernelbench/src/kevin_kernelbench
+项目大小:
+64K	/root/autodl-tmp/wanghan/gpu_coding/kevin_kernelbench/src/kevin_kernelbench
+
+data 目录不存在
+
+5. 系统存储位置检查
+===================
+/tmp 目录:
+Filesystem      Size  Used Avail Use% Mounted on
+overlay          30G   24G  6.8G  78% /
+
+/opt 目录:
+Filesystem      Size  Used Avail Use% Mounted on
+overlay          30G   24G  6.8G  78% /
+/opt 目录大小:
+2.2G	/opt
+
+/usr/local 目录:
+Filesystem      Size  Used Avail Use% Mounted on
+overlay          30G   24G  6.8G  78% /
+/usr/local 目录大小:
+4.4G	/usr/local
+
+用户主目录:
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/md0        2.5T  2.1T  428G  83% /root/autodl-tmp
+用户主目录大小:
+13G	/root/autodl-tmp/wanghan
+
+6. 常见模型存储目录
+===================
+/models 目录:
+/models 目录不存在
+
+/data 目录:
+/data 目录不存在
+
+/storage 目录:
+/storage 目录不存在
+
+/mnt 目录:
+Filesystem      Size  Used Avail Use% Mounted on
+overlay          30G   24G  6.8G  78% /
+/mnt 目录大小:
+0	/mnt
+/mnt 目录内容:
+total 4
+drwxr-xr-x 2 root root   10 Oct  4  2023 .
+drwxr-xr-x 1 root root 4096 Jul  1 15:33 ..
+
+7. /mnt 下的挂载点
+==================
+/mnt 目录内容:
+total 4
+drwxr-xr-x 2 root root   10 Oct  4  2023 .
+drwxr-xr-x 1 root root 4096 Jul  1 15:33 ..
+
+
+8. 系统内存信息
+===============
+               total        used        free      shared  buff/cache   available
+Mem:           755Gi        20Gi        66Gi        52Mi       668Gi       729Gi
+Swap:             0B          0B          0B
+
+9. GPU 信息
+===========
+Sat Sep 20 22:10:33 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.78                 Driver Version: 550.78         CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 4090        On  |   00000000:02:00.0 Off |                  Off |
+|  0%   34C    P8             27W /  450W |       1MiB /  24564MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA GeForce RTX 4090        On  |   00000000:03:00.0 Off |                  Off |
+|  0%   29C    P8             18W /  450W |       1MiB /  24564MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+10. 存储建议
+=============
+基于以上信息，建议的模型存储位置:
+1. 优先选择有足够空间（>150GB）的分区
+2. 考虑使用 /opt、/usr/local 或专门的 /data 目录
+3. 避免使用 /tmp 目录（可能被清理）
+4. 确保目标目录有读写权限
+
+=========================================
+检查完成时间: 2025-09-20 22:10:33
+=========================================

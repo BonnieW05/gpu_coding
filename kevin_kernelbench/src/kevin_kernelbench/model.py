@@ -44,35 +44,114 @@ class KevinModel:
                 self.swanlab_run = None
     
     def _load_model(self):
-        """加载Kevin-32B模型和分词器"""
+        """加载Kevin-32B模型和分词器，采用渐进式加载策略"""
         logger.info("开始加载Kevin-32B模型...")
         
+        # 策略1: 尝试内存安全加载（从HuggingFace Hub）
+        if self._try_load_from_hub():
+            logger.info("✅ 成功从HuggingFace Hub加载模型（内存安全模式）")
+            return
+        
+        # 策略2: 尝试本地加载（内存安全模式）
+        if self._try_load_from_local():
+            logger.info("✅ 成功从本地加载模型（内存安全模式）")
+            return
+        
+        # 策略3: 放弃加载
+        logger.error("❌ 所有加载策略都失败，无法加载模型")
+        raise RuntimeError("无法加载Kevin-32B模型，请检查网络连接和本地文件")
+    
+    def _try_load_from_hub(self):
+        """尝试从HuggingFace Hub加载模型（内存安全模式）"""
         try:
-            # 加载分词器
+            logger.info("🔄 尝试从HuggingFace Hub加载模型...")
+            
+            # 内存安全的分词器加载
+            tokenizer_kwargs = {
+                "cache_dir": self.config["model"]["cache_dir"],
+                "trust_remote_code": True,
+                "local_files_only": False  # 允许从网络下载
+            }
+            
             self.tokenizer = AutoTokenizer.from_pretrained(
                 self.config["model"]["name"],
-                cache_dir=self.config["model"]["cache_dir"],
-                trust_remote_code=True
+                **tokenizer_kwargs
             )
             
             if self.tokenizer.pad_token is None:
                 self.tokenizer.pad_token = self.tokenizer.eos_token
             
-            # 加载模型
+            # 内存安全的模型加载
+            model_kwargs = {
+                "cache_dir": self.config["model"]["cache_dir"],
+                "torch_dtype": torch.float16,
+                "device_map": "auto",
+                "trust_remote_code": True,
+                "low_cpu_mem_usage": True,
+                "local_files_only": False  # 允许从网络下载
+            }
+            
             self.model = AutoModelForCausalLM.from_pretrained(
                 self.config["model"]["name"],
-                cache_dir=self.config["model"]["cache_dir"],
-                torch_dtype=torch.float16,
-                device_map="auto",
-                trust_remote_code=True,
-                low_cpu_mem_usage=True
+                **model_kwargs
             )
             
-            logger.info("Kevin-32B模型加载完成")
+            return True
             
         except Exception as e:
-            logger.error(f"模型加载失败: {e}")
-            raise
+            logger.warning(f"⚠️ 从HuggingFace Hub加载失败: {e}")
+            self.model = None
+            self.tokenizer = None
+            return False
+    
+    def _try_load_from_local(self):
+        """尝试从本地加载模型（内存安全模式）"""
+        try:
+            logger.info("🔄 尝试从本地加载模型...")
+            
+            # 检查本地模型路径
+            local_model_path = self.config["model"].get("local_path")
+            if not local_model_path:
+                # 如果没有指定本地路径，尝试从cache_dir加载
+                local_model_path = self.config["model"]["cache_dir"]
+            
+            # 内存安全的本地分词器加载
+            tokenizer_kwargs = {
+                "cache_dir": local_model_path,
+                "trust_remote_code": True,
+                "local_files_only": True  # 只使用本地文件
+            }
+            
+            self.tokenizer = AutoTokenizer.from_pretrained(
+                local_model_path,
+                **tokenizer_kwargs
+            )
+            
+            if self.tokenizer.pad_token is None:
+                self.tokenizer.pad_token = self.tokenizer.eos_token
+            
+            # 内存安全的本地模型加载
+            model_kwargs = {
+                "cache_dir": local_model_path,
+                "torch_dtype": torch.float16,
+                "device_map": "auto",
+                "trust_remote_code": True,
+                "low_cpu_mem_usage": True,
+                "local_files_only": True  # 只使用本地文件
+            }
+            
+            self.model = AutoModelForCausalLM.from_pretrained(
+                local_model_path,
+                **model_kwargs
+            )
+            
+            return True
+            
+        except Exception as e:
+            logger.warning(f"⚠️ 从本地加载失败: {e}")
+            self.model = None
+            self.tokenizer = None
+            return False
     
     def generate_kernel(self, prompt: str) -> str:
         """生成单个CUDA内核"""
